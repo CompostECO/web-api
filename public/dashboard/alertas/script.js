@@ -42,7 +42,6 @@ function loadCompostersSidebar(composters) {
 }
 
 function callGetAlertsFromProdutor() {
-  // fetch(`/alertas/listar-produtor/${sessionStorage.ID_USUARIO}`, {
   fetch(`/alertas/listar-produtor/${sessionStorage.ID_USUARIO}`, {
     method: "GET",
     headers: {
@@ -50,6 +49,8 @@ function callGetAlertsFromProdutor() {
     }
   }).then((res) => {
     res.json().then((response) => {
+      let html = ""
+
       for (let i = 0; i < response.length; i++) {
         let dataEnviado = new Date(response[i].enviado_em);
         let dataAtual = new Date();
@@ -57,7 +58,7 @@ function callGetAlertsFromProdutor() {
         let tempo = msToTime(diferencaMili)
 
         if (response[i].prioridade == 0) {
-          alertaSection.innerHTML += ` 
+          html += ` 
             <div class="alert normal">
               <div class="heading">
               <i class="ph-bold ph-info icon"></i>
@@ -71,7 +72,7 @@ function callGetAlertsFromProdutor() {
 
         }
         if (response[i].prioridade == 1) {
-          alertaSection.innerHTML += ` 
+          html += ` 
           <div class="alert moderate">
             <div class="heading">
               <i class="ph-bold ph-warning-diamond icon"></i>
@@ -85,7 +86,7 @@ function callGetAlertsFromProdutor() {
 
         }
         if (response[i].prioridade == 2) {
-          alertaSection.innerHTML += `
+          html += `
           <div class="alert danger">
             <div class="heading">
               <i class="ph-bold ph-warning icon"></i>
@@ -99,7 +100,7 @@ function callGetAlertsFromProdutor() {
 
         }
         if (response[i].prioridade == 3) {
-          alertaSection.innerHTML += `
+          html += `
             <div class="alert urgent">
               <div class="heading">
                 <i class="ph-bold ph-warning-octagon icon"></i>
@@ -112,6 +113,7 @@ function callGetAlertsFromProdutor() {
             </div>`;
         }
       }
+      alertaSection.innerHTML = html
     })
 
 
@@ -124,4 +126,6 @@ async function loadAlerts() {
   callGetAlertsFromProdutor()
   const composteiras  = await getComposters();
   loadCompostersSidebar(composteiras)
+
+  setTimeout(() => loadAlerts(), 2000)
 }

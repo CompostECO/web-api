@@ -131,6 +131,7 @@ async function pegarTodasComposteiras(){
   return dado;
 }
 
+let tempChart, humChart
 async function loadCharts () {
   const dados = await getKpis();
   const composteirasDados = await pegarTodasComposteiras();
@@ -140,7 +141,13 @@ async function loadCharts () {
   loadCompostersSummary(composteiras)
   loadKPIs(kpis)
 
-  new Chart(document.getElementById('chartTemperature'), {
+  if (tempChart) 
+    tempChart.destroy()
+
+  if (humChart) 
+    humChart.destroy()
+
+  tempChart = new Chart(document.getElementById('chartTemperature'), {
     type: 'line',
 
     data: {
@@ -185,7 +192,7 @@ async function loadCharts () {
     plugins: [temperatureBackgroundZonesPlugin]
   })
 
-  new Chart(document.getElementById('chartHumidity'), {
+  humChart = new Chart(document.getElementById('chartHumidity'), {
     type: 'line',
 
     data: {
@@ -230,6 +237,8 @@ async function loadCharts () {
     },
     plugins: [humidityBackgroundZonesPlugin]
   })
+
+  setTimeout(() => loadCharts(), 5000)
 }
 
 const priorities = {
@@ -308,7 +317,15 @@ function loadCompostersSidebar (composters) {
 function loadCompostersSummary (composters) {
   const summaryComponent = document.getElementById("composterSummary")
 
-  let html = ""
+  let html = `
+    <div class="composter composter-title">
+      <p>Composteira</p>
+      <p>Temperatura</p>
+      <p>Umidade</p>
+      <p>Estado</p>
+      <p>Última detecção</p>
+    </div>
+  `
   composters.forEach(composter => {
     const { temperatura, umidade, estado, hora } = composter.dados.ultimaDeteccao
     html += `
@@ -322,5 +339,5 @@ function loadCompostersSummary (composters) {
     `
   })
 
-  summaryComponent.innerHTML += html
+  summaryComponent.innerHTML = html
 }

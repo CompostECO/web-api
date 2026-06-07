@@ -53,5 +53,4 @@ async function loadSide(){
   const dado = await getKpis()
   const composteiras = dado
   loadCompostersSidebar(composteiras)
-  adicionarNomeEmpresa()
 }

@@ -64,7 +64,6 @@ function pegausuario(){
   async function atualizarOptions(){
     const produtoresElemento = document.getElementById('produtores')
     
-    adicionarNomeEmpresa()
     
     const dados = await pegausuario()
     

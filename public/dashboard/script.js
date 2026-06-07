@@ -135,9 +135,9 @@ async function loadCharts () {
   const dados = await getKpis();
   const composteirasDados = await pegarTodasComposteiras();
   const { kpis, composteiras } = dados
-  console.log(composteirasDados, "aspdkasodkopsak")
   loadCompostersSidebar(composteirasDados)
   loadCompostersSummary(composteiras)
+  adicionarNomeEmpresa()
   loadKPIs(kpis)
 
   new Chart(document.getElementById('chartTemperature'), {
@@ -260,7 +260,11 @@ async function loadKPIs (kpis) {
   const alertDescElement = document.getElementById("alertDescription")
   const stableDescElement = document.getElementById("stableDescription")
 
-  console.log(kpis, "asdasdsea")
+  const descriptionTexts = {
+    active: ['<p class="desc" id="activeDescription">', ' caixa(s) de vermicompostagem estão sendo monitoradas.</p>'],
+    alert: ['<p class="desc" id="alertDescription">', ' composteira(s) está <span class="warning">fora</span> das condições ideais.</p>'],
+    stable: ['<p class="desc" id="stableDescription">Suas composteiras passam <span class="danger">', '% do tempo fora</span> das condições ideais.</p>'],
+  }
   const {
     qntComposteira,
     qntComposteirasAlerta,

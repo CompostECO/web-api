@@ -1,4 +1,5 @@
 var alertaModel = require("../models/alertaModel");
+var empresaModel = require("../models/empresaModel")
 
 function listarPorComposteira(req, res) {
     var idComposteira = req.params.idComposteira;
@@ -22,15 +23,17 @@ function listarPorComposteira(req, res) {
         });
 }
 
-function listarPorProdutor(req, res) {
-    var idProdutor = req.params.idProdutor;
+async function listarPorProdutor(req, res) {
+    var userId = req.params.idProdutor;
 
-    if (idProdutor == undefined) {
+    if (userId == undefined) {
         res.status(400).send("O idProdutor está undefined!");
         return;
     }
 
-    alertaModel.buscarUltimos50DoProdutor(idProdutor)
+    var idProdutor = await empresaModel.buscarPorId(userId)
+
+    alertaModel.buscarUltimos50DoProdutor(idProdutor[0].id)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);

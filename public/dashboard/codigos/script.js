@@ -15,7 +15,6 @@ async function desativarCodigo(id) {
     console.error("deu erro bixo:", error);
   }
 }
-        sessionStorage.EMAIL_USUARIO = json[0].email
 
 async function gerarCodigo() {
   const res = await fetch("/codigo/gerar", {

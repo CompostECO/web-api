@@ -17,7 +17,7 @@
   
 </head>
 
-<body onload="loadSide()" class="page-body">
+<body onload="loadSide(); getAlerts(window.location.href)" class="page-body">
 
   <aside class="sidebar">
 
@@ -80,8 +80,10 @@
       Requisição
     </button>
     </div>
+    <div id="alertsContainer2"></div>
   </main>
 
+  <script src="../../js/alerta.js"></script>
   <script src="script.js"></script>
 
 </body>

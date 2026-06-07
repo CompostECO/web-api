@@ -17,7 +17,7 @@
     <script src="../../js/sessao.js"></script>
 </head>
 
-<body onload="loadAlerts()" class="page-body">
+<body onload="loadAlerts(); getAlerts(window.location.href)" class="page-body">
 
   <aside class="sidebar">
 
@@ -110,8 +110,10 @@
     <section class="alerts-section" id="alertaSection">
       
     </section>
+    <div id="alertsContainer2"></div>
   </main>
 
+  <script src="../../js/alerta.js"></script>
   <script src="script.js"></script>
 </body>
 

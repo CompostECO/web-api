@@ -49,7 +49,7 @@ async function pegarTaxaEstabilidade(id_usuario) {
 
 async function pegarComposteirasAlerta(id_user) {
     let instrucao = `
-    SELECT COUNT(composteira_id) AS composteira_em_alerta FROM vw_ultimos_alertas
+    SELECT COUNT(DISTINCT composteira_id) AS composteira_em_alerta FROM vw_ultimos_alertas
     WHERE id_usuario = ${id_user} AND DAY(data_alerta) = DAY(CURDATE()) AND data_alerta > DATE_SUB(NOW(), INTERVAL 4 HOUR);
     `;
 

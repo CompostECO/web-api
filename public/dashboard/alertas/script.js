@@ -124,5 +124,4 @@ async function loadAlerts() {
   callGetAlertsFromProdutor()
   const composteiras  = await getComposters();
   loadCompostersSidebar(composteiras)
-  adicionarNomeEmpresa()
 }

@@ -179,7 +179,6 @@ async function loadCharts() {
   console.log(composter)
 
   loadCompostersSidebar(composteiras)
-  adicionarNomeEmpresa()
   const { apiResponse } = composter
 
   if (!key) load(apiResponse)

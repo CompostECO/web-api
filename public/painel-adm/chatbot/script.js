@@ -3,7 +3,6 @@ function init () {
   if (!historic) 
     localStorage.setItem("chatHistoric", JSON.stringify({ messages: []}))
 
-  adicionarNomeEmpresa()
   const parsedHistoric = JSON.parse(localStorage.getItem("chatHistoric"))
   parsedHistoric.messages.forEach(message => createMessageElement(message))
 

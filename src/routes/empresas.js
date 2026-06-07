@@ -21,9 +21,5 @@ router.get("/listar", function (req, res) {
   empresaController.listar(req, res);
 });
 
-router.get("/buscarPorUsuario/:id", function (req, res) {
-  empresaController.buscarPorUsuario(req, res);
-});
-
 
 module.exports = router;

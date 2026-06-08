@@ -1,19 +1,26 @@
 // sessão
 function validarSessao() {
-    var email = sessionStorage.EMAIL_USUARIO;
+  const email = sessionStorage.getItem("EMAIL_USUARIO")
+  const nome  = sessionStorage.getItem("NOME_USUARIO")
 
-    // var b_usuario = document.getElementById("b_usuario");
+  if (!email || !nome) {
+    if (!window.location.href.includes("login")) {
+      window.location.href = "../../login/index.html"
+    }
+    return
+  }
 
-    if (email.includes("@composteco.com.br")) {
-        window.location = "../../painel-adm/index.html";
-    }
-    else {
-        window.location = "../../login/index.html";
-    }
+  if (
+    email.includes("@composteco.com.br") &&
+    !window.location.href.includes("painel-adm")
+  ) {
+    window.location.href = "../../painel-adm/index.html"
+    return
+  }
 }
 
 function limparSessao() {
-    sessionStorage.clear();
+    sessionStorage.clear()
     window.location = "../../../index.html";
 }
 
@@ -42,11 +49,12 @@ async function adicionarNomeEmpresa() {
     if (nomeArray.length > 1){
         siglaNome.innerHTML = `${nomeArray[0][0]}${nomeArray[1][0]}`;
     }else if(nomeArray.length == 1){
-        siglaNome.innerHTML = `${nomeArray[0][0]}`;
+        siglaNome.innerHTML = `${nomeArray[0][0]}${nomeArray[0][1]}`;
     }
     nomeEmpresaId.innerHTML = `${nomeEmpresa[0].nome_empresa}`;
     nomeUsuarioId.innerHTML = `${nomeUsuario}`;
-    nomeUsuarioHome.innerHTML = `Bem vindo, ${nomeUsuario}!`;
+    try {nomeUsuarioHome.innerHTML = `Bem vindo, ${nomeUsuario}!`}
+    catch {console.log("a")}
 }
 
 validarSessao()

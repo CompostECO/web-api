@@ -3,18 +3,24 @@ const empresaModel = require('../models/empresaModel')
 
 async function gerarCodigo (req, res) {
   const userId = req.body.userId
-  console.log(userId + 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-  if (!userId)
-    res.status(400).send("User Id inválido")
+  let produtorId = req.body.produtorId
+  console.log(userId + "a" + produtorId + 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+  if (!userId && !produtorId)
+    res.status(400).send("User e produtor Id inválido")
 
-  const produtorId = await empresaModel.buscarPorUsuario(userId)
+  let key = false
+  if(!produtorId){
+    produtorId = await empresaModel.buscarPorUsuario(userId)
+    key = true
+  }
+
   const alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
   let codigo = ""
   for (let i = 0; i < 6; i++) 
     codigo += i % 2 !== 0 ? Math.floor(Math.random() * 10) : alfabeto[Math.floor(Math.random() * 26)]
   
-  const result = await codigoModel.gerarCodigo(produtorId[0].id, codigo)
+  const result = await codigoModel.gerarCodigo(key ? produtorId[0].id : produtorId, codigo)
   .catch(erro => res.status(400).send(erro))
 
   res.status(201).json(result)

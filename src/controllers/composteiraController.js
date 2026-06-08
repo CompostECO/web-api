@@ -165,9 +165,10 @@ async function buscarDadosAtualizados (req, res) {
 async function buscarTodasComposteirasController(req, res){
   let id = req.params.id;
 
-  if (!id || typeof id == "undefined"){
+  console.log(id)
+  if (!id || typeof id == "undefined" || id == undefined || id == null || typeof id == "object" || id == "" || !!!id){
     console.log("dado nulo ou inválido")
-    res.status(400).json("dado nulo ou inválido")
+    return res.status(400).json("dado nulo ou inválido")
   }
 
   let dado = await composteiraModel.buscarTodasComposteiras(id);

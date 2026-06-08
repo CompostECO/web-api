@@ -76,7 +76,7 @@ async function cadastrar(req, res) {
   } else {
     var fkProdutor = await codigoModel.buscarProdutorPorCodigo(codigoAtivacao)
     console.log(fkProdutor, "aaaaaaaaa")
-    if (!fkProdutor || fkProdutor.length === 0)
+    if (!fkProdutor || fkProdutor.length === 0 || fkProdutor[0].produtor_id == 1)
       return res.status(401).send("Código não autorizado");
     // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
     usuarioModel.cadastrar(nome, email, senha, fkProdutor[0].produtor_id)

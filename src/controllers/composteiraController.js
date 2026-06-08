@@ -165,7 +165,7 @@ async function buscarDadosAtualizados (req, res) {
 async function buscarTodasComposteirasController(req, res){
   let id = req.params.id;
 
-  if (!id){
+  if (!id || typeof id == "undefined"){
     console.log("dado nulo ou inválido")
     res.status(400).json("dado nulo ou inválido")
   }

@@ -1,14 +1,14 @@
 // sessão
 function validarSessao() {
     var email = sessionStorage.EMAIL_USUARIO;
-    var nome = sessionStorage.NOME_USUARIO;
 
-    var b_usuario = document.getElementById("b_usuario");
+    // var b_usuario = document.getElementById("b_usuario");
 
-    if (email != null && nome != null) {
-        b_usuario.innerHTML = nome;
-    } else {
-        window.location = "../login.html";
+    if (email.includes("@composteco.com.br")) {
+        window.location = "../../painel-adm/index.html";
+    }
+    else {
+        window.location = "../../login/index.html";
     }
 }
 
@@ -34,7 +34,6 @@ function finalizarAguardar(texto) {
     }
 }
 
-
 async function adicionarNomeEmpresa() {
     const nomeEmpresa = await fetch(`/empresas/buscarPorUsuario/${sessionStorage.ID_USUARIO}`).then(res => res.json()).catch(erro => console.log(erro))
     const nomeUsuario = sessionStorage.NOME_USUARIO;
@@ -49,3 +48,5 @@ async function adicionarNomeEmpresa() {
     nomeUsuarioId.innerHTML = `${nomeUsuario}`;
     nomeUsuarioHome.innerHTML = `Bem vindo, ${nomeUsuario}!`;
 }
+
+validarSessao()

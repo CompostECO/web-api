@@ -32,7 +32,10 @@ async function gerarCodigo() {
 async function carregarCodigos() {
   const containerElemento = document.getElementById("containerCards")
   const codigos = await fetch(`/codigo/buscar/${id_usuario}`).then(res => res.json()).catch(err => console.error(err))
+  const composteira = await pegarTodasComposteiras()
 
+  loadCompostersSidebar(composteira)
+  adicionarNomeEmpresa()
   let html = ""
   codigos.forEach(codigo => {
     console.log(codigo)
@@ -49,4 +52,23 @@ async function carregarCodigos() {
 
   containerElemento.innerHTML = html
   setTimeout(() => carregarCodigos(), 5000)
+}
+
+function loadCompostersSidebar(composters) {
+  const composterContainerElement = document.getElementById("composterContainer")
+
+  composterContainerElement.innerHTML = ""
+  composters.forEach(composter => {
+    composterContainerElement.innerHTML += `
+      <div class="item" onclick="window.location.href='../composteira/index.html?composteira=${composter.id}'" id='${composter.id}'>
+        <i class="ph ph-cube icon"></i>
+        <p>${composter.nome}</p>
+      </div>
+    `
+  })
+}
+
+async function pegarTodasComposteiras() {
+  let dado = await fetch(`/composteira/pegarTodas/${sessionStorage.ID_USUARIO}`).then(res => res.json()).catch(erro => console.log(erro))
+  return dado;
 }

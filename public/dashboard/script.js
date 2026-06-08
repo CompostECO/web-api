@@ -139,6 +139,7 @@ async function loadCharts () {
   console.log(composteirasDados, "aspdkasodkopsak")
   loadCompostersSidebar(composteirasDados)
   loadCompostersSummary(composteiras)
+  adicionarNomeEmpresa()
   loadKPIs(kpis)
 
   if (tempChart) 

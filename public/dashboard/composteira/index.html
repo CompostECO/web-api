@@ -14,7 +14,7 @@
     href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css" />
   <link rel="stylesheet" type="text/css"
     href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
-    <script src="../../js/sessao.js"></script>
+  <script src="../../js/sessao.js"></script>
 </head>
 
 <body onload="loadCharts(); getAlerts(window.location.href)" class="page-body">
@@ -23,48 +23,49 @@
 
     <div class="group">
       <p class="label">Produtor</p>
-      <div class="item">
+
+      <div class="item" onclick="window.location.href='../codigos/index.html'">
         <i class="ph ph-farm icon"></i>
-        <p class="medium">Fazendinha LTDA</p>
+        <p class="medium" id="nomeEmpresaId"></p>
       </div>
-    </div>
 
-    <div class="group">
-      <p class="label">Dashboard</p>
-      <div class="nav">
-        <div class="item" onclick="window.location.href='../index.html'">
-          <i class="ph ph-chart-line icon"></i>
-          <p>Visão Geral</p>
-        </div>
-        <div class="item" onclick="window.location.href='../alertas/index.html'">
-          <i class="ph ph-warning icon"></i>
-          <p>Alertas</p>
-        </div>
-      </div>
-    </div>
 
-    <div class="group">
-      <p class="label">Composteiras</p>
-      <div class="nav" id="composterContainer">
-
-      </div>
-    </div>
-
-    <div class="group">
-      <p class="label">Suporte</p>
-      <div class="nav">
-        <div class="item" onclick="window.location.href='../suporte/index.html'">
-          <i class="ph ph-headset icon"></i>
-          <p class="text">Atendimento ao Cliente</p>
+      <div class="group">
+        <p class="label">Dashboard</p>
+        <div class="nav">
+          <div class="item" onclick="window.location.href='../index.html'">
+            <i class="ph ph-chart-line icon"></i>
+            <p>Visão Geral</p>
+          </div>
+          <div class="item" onclick="window.location.href='../alertas/index.html'">
+            <i class="ph ph-warning icon"></i>
+            <p>Alertas</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="sidebar-user">
-      <div class="avatar">JL</div>
-      <span>Júlia Lima</span>
-      <i class="ph ph-sign-out signout-icon" onclick="limparSessao()"></i>
-    </div>
+      <div class="group">
+        <p class="label">Composteiras</p>
+        <div class="nav" id="composterContainer">
+
+        </div>
+      </div>
+
+      <div class="group">
+        <p class="label">Suporte</p>
+        <div class="nav">
+          <div class="item" onclick="window.location.href='../suporte/index.html'">
+            <i class="ph ph-headset icon"></i>
+            <p class="text">Atendimento ao Cliente</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-user">
+        <div class="avatar" id="siglaNome"></div>
+        <span id="nomeUsuarioId"></span>
+        <i class="ph ph-sign-out signout-icon" onclick="limparSessao()"></i>
+      </div>
 
   </aside>
 
@@ -107,12 +108,12 @@
 
     <h1 class="page-title">
       <!-- <label for="composterModel">Modelo:</label> -->
-      <input type="text" id="composterModel" value="" onblur="alterarDados()"> 
+      <input type="text" id="composterModel" value="" onblur="alterarDados()">
       <!-- <label for="composterCapacity">Capacidade:</label> --> -
       <input type="number" id="composterCapacity" value="" onblur="alterarDados()">kg
     </h1>
     <h2 class="page-desc">
-      <label for="composterDescription"></label>  
+      <label for="composterDescription"></label>
       <input type="text" id="composterDescription" onblur="alterarDados()">
     </h2>
     <div class="composter-section">
@@ -134,8 +135,10 @@
       <div class="chart-painel-outter">
         <span>
           <button class="button-primary-dark" id='btnHoje' onclick="changeChart('hoje')">Hoje</button>
-          <button class="button-primary-dark less" id='btnTempoReal' onclick="changeChart('tempoReal')">Tempo real</button>
-          <button class="button-primary-dark less" id='btnSeteDias' onclick="changeChart('seteDias')">Últimos 7 dias</button>
+          <button class="button-primary-dark less" id='btnTempoReal' onclick="changeChart('tempoReal')">Tempo
+            real</button>
+          <button class="button-primary-dark less" id='btnSeteDias' onclick="changeChart('seteDias')">Últimos 7
+            dias</button>
           <button class="button-primary-dark less" id='btnMensal' onclick="changeChart('mensal')">Mensal</button>
         </span>
         <div class="chart-painel-inner">
@@ -163,7 +166,7 @@
         </div>
       </div>
     </div>
-   <div id="alertsContainer2"></div>
+    <div id="alertsContainer2"></div>
   </main>
 
   <script src="../../js/alerta.js"></script>

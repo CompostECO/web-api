@@ -124,8 +124,9 @@ function callGetAlertsFromProdutor() {
 
 async function loadAlerts() {
   callGetAlertsFromProdutor()
-  const composteiras  = await getComposters();
+  const composteiras = await getComposters();
   loadCompostersSidebar(composteiras)
+  adicionarNomeEmpresa()
 
   setTimeout(() => loadAlerts(), 2000)
 }

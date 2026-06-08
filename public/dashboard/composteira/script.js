@@ -143,12 +143,12 @@ function toggleShowInfo() {
 
 async function getComposter() {
   const apiResponse = await fetch(`/composteira/dashboard/${composterId}`)
-  .then(res => res.json())
-  .catch(err => console.error(err))
- 
+    .then(res => res.json())
+    .catch(err => console.error(err))
+
   const chartData = await fetch(`/composteira/grafico/${composterId}?tipo=hoje`)
-  .then(res => res.json())
-  .catch(err => console.error(err))
+    .then(res => res.json())
+    .catch(err => console.error(err))
 
   return {
     apiResponse,
@@ -161,7 +161,7 @@ async function getComposter() {
 }
 
 let key = false
-async function load (apiResponse) {
+async function load(apiResponse) {
   key = true
   const inputModelo = document.getElementById('composterModel')
   const inputCapacidade = document.getElementById('composterCapacity')
@@ -179,11 +179,12 @@ async function loadCharts() {
   console.log(composter)
 
   loadCompostersSidebar(composteiras)
+  adicionarNomeEmpresa()
   const { apiResponse } = composter
 
   if (!key) load(apiResponse)
 
-  loadKpis({ 
+  loadKpis({
     temperature: apiResponse.ultimaDeteccao.temperatura,
     humidity: apiResponse.ultimaDeteccao.umidade,
     healthIndex: apiResponse.indiceSaude,
@@ -197,7 +198,7 @@ addDefaultValues()
 loadHistoric()
 
 async function getComposters() {
- let dado = await fetch(`/composteira/pegarTodas/${sessionStorage.ID_USUARIO}`).then(res => res.json()).catch(erro => console.error(erro))
+  let dado = await fetch(`/composteira/pegarTodas/${sessionStorage.ID_USUARIO}`).then(res => res.json()).catch(erro => console.error(erro))
   return dado;
 }
 
@@ -322,7 +323,7 @@ async function loadHistoric() {
   conteinerElement.innerHTML = html
 }
 
-function loadKpis (data) {
+function loadKpis(data) {
   const { temperature, humidity, healthIndex, stableIndex } = data
 
   const cardContainerSt = document.getElementById("cardsContainer1")
@@ -367,7 +368,7 @@ function loadKpis (data) {
   `
 }
 
-function getStatus (parameter, data) {
+function getStatus(parameter, data) {
   if ((parameter === "temperature") && (Number(data) >= 20 && Number(data) <= 25))
     return priorities[0]
   if ((parameter === "temperature") && (Number(data) > 25 && Number(data) <= 30))
@@ -403,8 +404,8 @@ function getStatus (parameter, data) {
     return priorities[3]
 }
 
-function resetButtons (type) {
-  const buttons = [ 
+function resetButtons(type) {
+  const buttons = [
     document.getElementById('btnHoje'),
     document.getElementById('btnTempoReal'),
     document.getElementById('btnSeteDias'),
@@ -423,13 +424,13 @@ function resetButtons (type) {
   btnTypes[type].classList.remove("less")
 }
 
-async function changeChart (type) {
+async function changeChart(type) {
   localStorage.setItem("type", type)
-  
+
   resetButtons(type)
   const chartData = await fetch(`/composteira/grafico/${composterId}?tipo=${type}`)
-  .then(res => res.json())
-  .catch(err => console.error(err))
+    .then(res => res.json())
+    .catch(err => console.error(err))
 
   let time = chartData.hora_registro.reverse()
   if (type === "hoje") {
@@ -438,7 +439,7 @@ async function changeChart (type) {
 
   if (type === "mensal") {
     const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
-    time = time.map(month => months[month -1])
+    time = time.map(month => months[month - 1])
   }
 
   if (type === "seteDias") {
@@ -453,11 +454,11 @@ async function changeChart (type) {
   const humidity = chartData.umidade.reverse()
   const temperatureChartElement = document.getElementById('compTem')
   const humidityChartElement = document.getElementById('compHum')
-  
-  if (tempChart) 
+
+  if (tempChart)
     tempChart.destroy()
 
-  if (humChart) 
+  if (humChart)
     humChart.destroy()
 
   tempChart = new Chart(temperatureChartElement, {
@@ -527,30 +528,30 @@ async function changeChart (type) {
   setTimeout(() => changeChart(localStorage.getItem("type")), 50000)
 }
 
-async function alterarDados(){
+async function alterarDados() {
   let mod = document.getElementById("composterModel").value;
   let desc = document.getElementById("composterDescription").value;
   let cap = document.getElementById("composterCapacity").value;
   let id_composteira = composterId
 
-    if (mod=='' || cap=='' || desc=='') {
-        alert("Não pode deixar em branco!");
-        window.location.reload()
-        return;
-    }
-
-    const body = {
-      modelo: mod,
-      descricao: desc,
-      capacidade: cap,
-      id: id_composteira
-    }
-
-    await fetch("/composteira/alterarDadosUsuarioComum", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-    }).then(res => alert("Dados alterados com sucesso!"))
+  if (mod == '' || cap == '' || desc == '') {
+    alert("Não pode deixar em branco!");
+    window.location.reload()
+    return;
   }
+
+  const body = {
+    modelo: mod,
+    descricao: desc,
+    capacidade: cap,
+    id: id_composteira
+  }
+
+  await fetch("/composteira/alterarDadosUsuarioComum", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  }).then(res => alert("Dados alterados com sucesso!"))
+}
 
 changeChart("hoje")

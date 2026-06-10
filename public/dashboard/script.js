@@ -152,7 +152,7 @@ async function loadCharts () {
     type: 'line',
 
     data: {
-      labels: composteiras[0].dados.hora,
+      labels: composteiras[0].dados.hora.map(hora => hora + "h"),
 
       datasets: composteiras.map((composteira) => ({
         label: composteira.nome,
@@ -197,7 +197,7 @@ async function loadCharts () {
     type: 'line',
 
     data: {
-      labels: composteiras[0].dados.hora,
+      labels: composteiras[0].dados.hora.map(hora => hora + "h"),
 
       datasets: composteiras.map((composteira) => ({
         label: composteira.nome,

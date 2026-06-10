@@ -41,6 +41,45 @@ function loadCompostersSidebar(composters) {
   })
 }
 
+const priorities = {
+  0: {
+    class: "normal",
+    word: "normal",
+    icon: "info",
+    temperature: "dentro da faixa ideal",
+    humidity: "dentro da faixa ideal",
+    stableIndex: ", ",
+    healthIndex: "condições ideais"
+  },
+  1: {
+    class: "moderate",
+    word: "moderada",
+    icon: "warning-diamond",
+    temperature: "levemente fora da faixa ideal",
+    humidity: "levemente fora da faixa ideal",
+    stableIndex: ", ",
+    healthIndex: "sem risco eminente"
+  },
+  2: {
+    class: "danger",
+    word: "alta",
+    icon: "warning",
+    temperature: "fora da faixa ideal",
+    humidity: "fora da faixa ideal",
+    stableIndex: " apenas ",
+    healthIndex: "risco elevado"
+  },
+  3: {
+    class: "urgent",
+    word: "urgênte",
+    icon: "warning-octagon",
+    temperature: "totalmente fora da faixa ideal",
+    humidity: "totalmente fora da faixa ideal",
+    stableIndex: " apenas ",
+    healthIndex: "risco crítico"
+  },
+}
+
 function callGetAlertsFromProdutor() {
   fetch(`/alertas/listar-produtor/${sessionStorage.ID_USUARIO}`, {
     method: "GET",
@@ -57,62 +96,19 @@ function callGetAlertsFromProdutor() {
         let diferencaMili = Math.abs(dataAtual.getTime() - dataEnviado.getTime())
         let tempo = msToTime(diferencaMili)
 
-        if (response[i].prioridade == 0) {
-          html += ` 
-            <div class="alert normal">
-              <div class="heading">
-              <i class="ph-bold ph-info icon"></i>
-              <h1 class="title"><strong>${response[i].tipo[0].toUpperCase() + response[i].tipo.substring(1)}</strong> na composteira ${response[i].modelo}</h1>
-              <p class="date">${tempo} atrás</p>
-            </div>
-            <p class="desc">
-                 ${response[i].descricao}
-            </p>
-          </div>`
-
-        }
-        if (response[i].prioridade == 1) {
-          html += ` 
-          <div class="alert moderate">
+        html += ` 
+          <div class="alert ${priorities[response[i].prioridade].class}" onclick="window.location.href='../composteira/index.html?composteira=${response[i].composteira_id}'">
             <div class="heading">
-              <i class="ph-bold ph-warning-diamond icon"></i>
-              <h1 class="title"><strong>${response[i].tipo[0].toUpperCase() + response[i].tipo.substring(1)}</strong> na composteira ${response[i].modelo}</h1>
-              <p class="date">${tempo} atrás</p>
-            </div>
-              <p class="desc">
-                ${response[i].descricao}
-              </p>
-          </div>`;
-
-        }
-        if (response[i].prioridade == 2) {
-          html += `
-          <div class="alert danger">
-            <div class="heading">
-              <i class="ph-bold ph-warning icon"></i>
-              <h1 class="title"><strong>${response[i].tipo[0].toUpperCase() + response[i].tipo.substring(1)}</strong> na composteira ${response[i].modelo} </h1>
-              <p class="date">${tempo} atrás</p>
-            </div>
-            <p class="desc">
-             ${response[i].descricao}
-            </p>
-          </div>`
-
-        }
-        if (response[i].prioridade == 3) {
-          html += `
-            <div class="alert urgent">
-              <div class="heading">
-                <i class="ph-bold ph-warning-octagon icon"></i>
-                <h1 class="title"><strong>${response[i].tipo[0].toUpperCase() + response[i].tipo.substring(1)}</strong> na composteira ${response[i].modelo} </h1>
-                <p class="date">${tempo} atrás</p>
-              </div>
-              <p class="desc">
-                ${response[i].descricao}
-              </p>
-            </div>`;
-        }
+            <i class="ph-bold ph-${priorities[response[i].prioridade].icon} icon"></i>
+            <h1 class="title"><strong>${response[i].tipo[0].toUpperCase() + response[i].tipo.substring(1)}</strong> na composteira ${response[i].modelo}</h1>
+            <p class="date">${tempo} atrás</p>
+          </div>
+          <p class="desc">
+              ${response[i].descricao}
+          </p>
+        </div>`
       }
+      
       alertaSection.innerHTML = html
     })
 

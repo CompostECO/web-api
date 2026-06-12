@@ -1,6 +1,6 @@
 let alerts  = []
 let globalHref
-async function getAlerts (pageHref) { // dá para passar o href da página no load, para deixar o direcionamento do alert dinâmico
+async function getAlerts (pageHref) {
   if (typeof pageHref === "string")
     globalHref = pageHref
   if (alerts.length === 0)  {
@@ -30,7 +30,13 @@ function showAlert (alert) {
 
   const hrefSplitted = globalHref.split('/')
   console.log(hrefSplitted[4])
-  const dir = ["dashboard", "alertas", "codigos", "suporte"].includes(hrefSplitted[4]) ? "../composteira/" : "./"
+
+  const dir = 
+    ["alertas", "codigos", "suporte"].includes(hrefSplitted[4]) 
+    ? "../composteira/"
+    : hrefSplitted[4].includes("index.html") 
+    ? "./composteira/"
+    : "./"
   
   container.innerHTML += `
     <div class='alert' id='alert-${alerta_id}' onclick="window.location.href='${dir}index.html?composteira=${composteira_id}'">

@@ -122,122 +122,28 @@ function toggleShowInfo() {
 }
 
 async function getKpis() {
-  let dado = await fetch(`/grafico/mostrarDados/${sessionStorage.ID_USUARIO}`).then(res => res.json()).catch(erro => console.log(erro))
+  let dado = await fetch(`/grafico/mostrarDados/${sessionStorage.ID_USUARIO}`).then(res => res.json()).catch(erro => console.error(erro))
   return dado;
 } 
 
 async function pegarTodasComposteiras(){
-  let dado = await fetch(`/composteira/pegarTodas/${sessionStorage.ID_USUARIO}`).then(res => res.json()).catch(erro => console.log(erro))
+  let dado = await fetch(`/composteira/pegarTodas/${sessionStorage.ID_USUARIO}`).then(res => res.json()).catch(erro => console.error(erro))
   return dado;
 }
 
-let tempChart, humChart
+let tempChart, humChart, composteirasGlobal
 async function loadCharts () {
-  const dados = await getKpis();
-  const composteirasDados = await pegarTodasComposteiras();
+  const dados = await getKpis()
+  const composteirasDados = await pegarTodasComposteiras()
   const { kpis, composteiras } = dados
-  console.log(composteirasDados, "aspdkasodkopsak")
+  composteirasGlobal = composteiras
+
   loadCompostersSidebar(composteirasDados)
   loadCompostersSummary(composteiras)
   adicionarNomeEmpresa()
   loadKPIs(kpis)
-
-  if (tempChart) 
-    tempChart.destroy()
-
-  if (humChart) 
-    humChart.destroy()
-
-  tempChart = new Chart(document.getElementById('chartTemperature'), {
-    type: 'line',
-
-    data: {
-      labels: composteiras[0].dados.hora.map(hora => hora + "h"),
-
-      datasets: composteiras.map((composteira) => ({
-        label: composteira.nome,
-        data: composteira.dados.temperatura,
-        tension: 0.4,
-      }))
-    },
-
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-
-      plugins: {
-        title: {
-          display: true,
-          text: 'Temperatura das Composteiras',
-          align: 'start',
-          color: '#0C0C09',
-          font: {
-            size: 16,
-            padding: 12,
-            family: '"Poppins", sans-serif'
-          }
-        }
-      },
-
-      scales: {
-        y: {
-          min: 0,
-          max: 45,
-          title: {
-            display: true,
-            text: 'Temperatura (°C)',
-          }
-        }
-      }
-    },
-    plugins: [temperatureBackgroundZonesPlugin]
-  })
-
-  humChart = new Chart(document.getElementById('chartHumidity'), {
-    type: 'line',
-
-    data: {
-      labels: composteiras[0].dados.hora.map(hora => hora + "h"),
-
-      datasets: composteiras.map((composteira) => ({
-        label: composteira.nome,
-        data: composteira.dados.umidade,
-        borderWidth: 3,
-        tension: 0.4,
-        fill: false
-      }))
-    },
-
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        title: {
-          display: true,
-          text: 'Umidade das Composteiras',
-          align: 'start',
-          color: '#0C0C09',
-          font: {
-            size: 16,
-            padding: 12,
-            family: '"Poppins", sans-serif'
-          }
-        }
-      },
-
-      scales: {
-        y: {
-          min: 0,
-          max: 100,
-          title: {
-            display: true,
-            text: 'Umidade (%)'
-          }
-        }
-      }
-    },
-    plugins: [humidityBackgroundZonesPlugin]
-  })
+  loadButtons(composteiras)
+  drawCharts(composteiras)
 
   setTimeout(() => loadCharts(), 5000)
 }
@@ -270,7 +176,6 @@ async function loadKPIs (kpis) {
   const alertDescElement = document.getElementById("alertDescription")
   const stableDescElement = document.getElementById("stableDescription")
 
-  console.log(kpis, "asdasdsea")
   const {
     qntComposteira,
     qntComposteirasAlerta,
@@ -290,7 +195,6 @@ async function loadKPIs (kpis) {
 }
 
 function getStatus (parameter, data) {
-  console.log(parameter, data)
   if ((parameter === "active") && (Number(data) >= 90))
     return priorities[0]
   if ((parameter === "active") && (Number(data) >= 60))
@@ -341,4 +245,155 @@ function loadCompostersSummary (composters) {
   })
 
   summaryComponent.innerHTML = html
+}
+
+function loadButtons(composters) {
+  const containerElement = document.getElementById("composterFilters")
+  console.log(composters)
+
+  let html = ""
+
+  const ls = localStorage.getItem("composterFilter").split(" ")
+  console.log(ls)
+  composters.forEach((composter, i) => {
+    html += `
+      <button class="button-primary-dark ${ls.includes(composter.id + '') ? "" : " less"}" id='btn-${composter.id}' onclick="clickButtons('btn-${composter.id}')">${composter.nome}</button>
+    `
+  })
+
+  containerElement.innerHTML = html
+}
+
+function clickButtons (btnId) {
+  const id = btnId.split('-')[1]
+
+  const button = document.getElementById(btnId)
+
+  const ls = localStorage.getItem("composterFilter")
+  if (button.classList.contains("less")) {
+    localStorage.setItem("composterFilter", `${ls} ${id}`)
+    button.classList.remove("less")
+  } else {
+    localStorage.setItem("composterFilter", `${ls.replace(id, "")}`)
+    button.classList.add("less")
+  }
+
+  drawCharts()
+}
+
+function drawCharts () {
+  if(!localStorage.getItem("composterFilter")) 
+    localStorage.setItem("composterFilter", composteirasGlobal[0].id)
+
+  const ids = localStorage.getItem("composterFilter").split(" ")
+
+  if (tempChart) 
+    tempChart.destroy()
+
+  if (humChart) 
+    humChart.destroy()
+
+  tempChart = new Chart(document.getElementById('chartTemperature'), {
+    type: 'line',
+
+    data: {
+      labels: composteirasGlobal[0].dados.hora.map(hora => hora + "h"),
+
+      datasets: composteirasGlobal
+      .filter(composteira => ids.includes(composteira.id + ''))
+      .map((composteira) => ({
+        label: composteira.nome,
+        data: composteira.dados.temperatura,
+        tension: 0.4,
+      }))
+    },
+
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Temperatura das Composteiras',
+          align: 'start',
+          color: '#0C0C09',
+          font: {
+            size: 16,
+            padding: 12,
+            family: '"Poppins", sans-serif'
+          }
+        },
+        legend: {
+          display: false,
+          labels: {
+            display: false
+          }
+        }
+      },
+
+      scales: {
+        y: {
+          min: 0,
+          max: 45,
+          title: {
+            display: true,
+            text: 'Temperatura (°C)',
+          }
+        }
+      }
+    },
+    plugins: [temperatureBackgroundZonesPlugin]
+  })
+
+  humChart = new Chart(document.getElementById('chartHumidity'), {
+    type: 'line',
+
+    data: {
+      labels: composteirasGlobal[0].dados.hora.map(hora => hora + "h"),
+
+      datasets: composteirasGlobal
+      .filter(composteira => ids.includes(composteira.id + ''))
+      .map((composteira) => ({
+        label: composteira.nome,
+        data: composteira.dados.umidade,
+        tension: 0.4,
+      }))
+    },
+
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Umidade das Composteiras',
+          align: 'start',
+          color: '#0C0C09',
+          font: {
+            size: 16,
+            padding: 12,
+            family: '"Poppins", sans-serif'
+          }
+        },
+        legend: {
+          display: false,
+          labels: {
+            display: false
+          }
+        }
+      },
+
+      scales: {
+        y: {
+          min: 0,
+          max: 100,
+          title: {
+            display: true,
+            text: 'Umidade (%)'
+          }
+        }
+      }
+    },
+    plugins: [humidityBackgroundZonesPlugin]
+  })
 }

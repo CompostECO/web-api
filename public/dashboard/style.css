@@ -523,3 +523,29 @@ body {
 .hidden {
   display: none !important;
 }
+
+
+.button-primary-dark {
+  background-color: var(--olive-600);
+  color: var(--olive-100);
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 3rem;
+  border: none;
+  cursor: pointer;
+  transition: all 150ms;
+  border: 2px solid var(--olive-600);
+  margin-bottom: 2px;
+}
+
+.button-primary-dark:hover {
+  background-color: var(--olive-500);
+  color: var(--olive-50);
+  border: 2px solid var(--olive-500);
+}
+
+.less {
+  background-color: transparent;
+  color: var(--olive-900);
+}

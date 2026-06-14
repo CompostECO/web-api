@@ -187,11 +187,11 @@ async function loadKPIs (kpis) {
   alertValueElement.innerHTML = `<span class='${getStatus("active", (100 - (qntComposteirasAlerta / qntComposteira * 100))).class}'>${qntComposteirasAlerta}</span>`
   stableValueElement.innerHTML =`<span class='${getStatus("active", taxaEstabilidade).class}'>${taxaEstabilidade}%</span>`
 
-  activeDescElement.innerHTML = `<p class="desc" id="activeDescription">De ${totalComposters} caixa(s) de vermicompostagem, ${qntComposteira} está(ão) sendo monitorada(s).</p>`
+  activeDescElement.innerHTML = `<p class="desc" id="activeDescription">De ${totalComposters} caixa${totalComposters > 1 ? "s" : ""} de vermicompostagem, ${qntComposteira} est${qntComposteira > 1 ? "ão" : 'á'} sendo monitorada${qntComposteira > 1 ? "s" : ''}.</p>`
   
-  alertDescElement.innerHTML = `<p class="desc " id="alertDescription">De ${totalComposters} composteira(s) ativa(s), ${qntComposteirasAlerta} está(ão) <span class="${getStatus("active", (100 - (qntComposteirasAlerta / qntComposteira * 100))).class}">fora</span> das condições ideais.</p>`
+  alertDescElement.innerHTML = `<p class="desc " id="alertDescription">De ${qntComposteira} composteira${qntComposteira > 1 ? "s" : ''} ativa${qntComposteira > 1 ? "s" : ''}, ${qntComposteirasAlerta} est${qntComposteirasAlerta > 1 ? "ão" : 'á'} <span class="${getStatus("active", (100 - (qntComposteirasAlerta / qntComposteira * 100))).class}">fora</span> das condições ideais.</p>`
 
-  stableDescElement.innerHTML = `<p class="desc " id="stableDescription">Suas composteiras passam <span class="${getStatus("active", taxaEstabilidade).class}">${(100 - taxaEstabilidade)}% do tempo fora</span> das condições ideais.</p>`
+  stableDescElement.innerHTML = `<p class="desc " id="stableDescription">Hoje sua${qntComposteira > 1 ? 's' : ''} composteira${qntComposteira > 1 ? 's' : ''} pass${qntComposteira > 1 ? 'aram' : 'ou'} <span class="${getStatus("active", taxaEstabilidade).class}">${(100 - taxaEstabilidade)}% do tempo fora</span> das condições ideais.</p>`
 }
 
 function getStatus (parameter, data) {

@@ -31,7 +31,7 @@ async function listarPorProdutor(req, res) {
         return;
     }
 
-    var idProdutor = await empresaModel.buscarPorId(userId)
+    var idProdutor = await empresaModel.buscarPorUsuario(userId)
 
     alertaModel.buscarUltimos50DoProdutor(idProdutor[0].id)
         .then(function (resultado) {

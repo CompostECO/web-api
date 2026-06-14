@@ -1,4 +1,5 @@
 var composteiraModel = require("../models/composteiraModel");
+var empresaModel = require("../models/empresaModel")
 
 function buscarPorIdComposteira(req, res) {
   var id = req.params.id
@@ -171,7 +172,8 @@ async function buscarTodasComposteirasController(req, res){
     return res.status(400).json("dado nulo ou inválido")
   }
 
-  let dado = await composteiraModel.buscarTodasComposteiras(id);
+  var idProdutor = await empresaModel.buscarPorUsuario(id)
+  let dado = await composteiraModel.buscarTodasComposteiras(idProdutor[0].id);
 
   console.log("todas composteiras: ", dado)
   res.status(200).json(dado)

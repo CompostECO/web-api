@@ -323,12 +323,12 @@ function drawCharts () {
             family: '"Poppins", sans-serif'
           }
         },
-        legend: {
-          display: false,
-          labels: {
-            display: false
-          }
-        }
+        // legend: {
+        //   display: false,
+        //   labels: {
+        //     display: false
+        //   }
+        // }
       },
 
       scales: {
@@ -375,12 +375,12 @@ function drawCharts () {
             family: '"Poppins", sans-serif'
           }
         },
-        legend: {
-          display: false,
-          labels: {
-            display: false
-          }
-        }
+        // legend: {
+        //   display: false,
+        //   labels: {
+        //     display: false
+        //   }
+        // }
       },
 
       scales: {

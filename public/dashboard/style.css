@@ -361,7 +361,7 @@ body {
 }
 
 .composter-section .chart-painel-outter {
-  min-height: 22rem;
+  min-height: 28rem;
   width: 100%;
   background-color: var(--olive-200);
   border-radius: 0.75rem;
@@ -372,6 +372,7 @@ body {
 }
 
 .composter-section .chart-painel-outter .chart-painel-inner {
+  margin-top: 0.5rem;
   display: flex;
   width: 100%;
   position: relative;
@@ -523,7 +524,6 @@ body {
 .hidden {
   display: none !important;
 }
-
 
 .button-primary-dark {
   background-color: var(--olive-600);

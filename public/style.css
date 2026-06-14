@@ -564,7 +564,7 @@ border-top: 1px solid var(--olive-600);
 
 .calculator-section .container-calculator .container span{
   color: var(--olive-100);
-  font-size: 1.3rem;
+  /* font-size: 1.3rem; */
   padding-left: 50px;
   display: inline;
   text-align: justify;
@@ -572,11 +572,11 @@ border-top: 1px solid var(--olive-600);
 
 .calculator-section .container-calculator .container h1{
   color: var(--lime-600);
-  font-size: 2.6rem;
+  /* font-size: 2.6rem; */
 }
 .calculator-section .container-calculator .container2 h1{
   color: var(--lime-600);
-  font-size: 2.6rem;
+  /* font-size: 2.6rem; */
 }
 
 .calculator-section .container-calculator .container2 .container-form {
@@ -595,7 +595,7 @@ border-top: 1px solid var(--olive-600);
 }
 
 .calculator-section .container-calculator .container2 .container-form .result-card span{
-  font-size: 1.3rem;
+  /* font-size: 1.3rem; */
 }
 
 .calculator-section .container-calculator .container2 .container-form .result-card .strong-green{
@@ -635,17 +635,17 @@ color: rgb(158, 19, 19);
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   font-family: var(--font-family-default);
-  font-size: 1rem;
+  /* font-size: 1rem; */
   text-align: center;
 }
 
 .calculator-section .container-calculator .container2 .container-form .form p {
-  font-size: 1.7rem;
+  /* font-size: 1.7rem; */
   font-weight: bold;
 }
 
 .result-item {
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
 }
 
 /* Sessão de FAQ */
